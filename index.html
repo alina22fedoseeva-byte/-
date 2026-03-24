@@ -477,6 +477,9 @@
   }
 
   async function handleSubmit() {
+    if (isSubmitting) return;
+    isSubmitting = true;
+
     const name    = document.getElementById('f-name').value.trim();
     const contact = document.getElementById('f-contact').value.trim();
     const source  = document.getElementById('f-source').value;
@@ -486,6 +489,7 @@
 
     if (!name || !contact) {
       alert('Пожалуйста, заполните имя и контакт 💛');
+      isSubmitting = false;
       return;
     }
 
@@ -517,34 +521,20 @@
     }, 1800);
   }
 
-  function initButton() {
-    const btn = document.getElementById('submit-btn');
-    if (btn) {
-      btn.removeEventListener('click', handleSubmit);
-      btn.addEventListener('click', handleSubmit);
-      btn.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        handleSubmit();
-      }, { passive: false });
-    }
-  }
-
-  window.addEventListener('load', () => {
-    initReveal();
-    initButton();
-  });
+  let isSubmitting = false;
 
   document.addEventListener('DOMContentLoaded', () => {
     initReveal();
-    initButton();
+    const btn = document.getElementById('submit-btn');
+    if (btn) {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (!isSubmitting) handleSubmit();
+      });
+    }
   });
 
-  // Защита от зума на iOS
-  document.addEventListener('touchstart', function(event) {
-    if (event.touches.length > 1) {
-      event.preventDefault();
-    }
-  }, { passive: false });
+
 </script>
 
 </body>
