@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ты жизнь мою переменила — 4 апреля, Коломна</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:         #1c1c1c;
+    --card:       #272727;
+    --card2:      #2e2e2e;
+    --b-gold:     rgba(201,162,79,0.25);
+    --b-burg:     rgba(139,26,34,0.3);
+    --b-dim:      rgba(255,255,255,0.07);
+    --burg:       #8b1a22;
+    --burg-mid:   #a8222c;
+    --burg-light: #c4364a;
+    --gold:       #c9a24f;
+    --gold-light: #e0be7a;
+    --gold-pale:  #f0d89a;
+    --white:      #ffffff;
+    --offwhite:   #f2ece4;
+    --body:       #ccc4b8;
+    --muted:      #8a8278;
+    --fd: 'Playfair Display', Georgia, serif;
+    --fb: 'Montserrat', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--white); font-family: var(--fb); overflow-x: hidden; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100svh; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 0 56px;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 100% 55% at 50% 110%, rgba(139,26,34,0.55) 0%, transparent 60%),
+      radial-gradient(ellipse 55% 35% at 5% 5%,   rgba(201,162,79,0.09) 0%, transparent 55%),
+      radial-gradient(ellipse 40% 30% at 95% 15%,  rgba(201,162,79,0.07) 0%, transparent 50%),
+      linear-gradient(175deg, #111 0%, #1c1c1c 55%, #202020 100%);
+  }
+  .hero::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; z-index: 3;
+    background: linear-gradient(90deg, transparent, var(--gold) 30%, var(--gold-light) 50%, var(--gold) 70%, transparent);
+  }
+
+  .hero-top {
+    position: absolute; top: 0; left: 0; right: 0;
+    padding: clamp(20px,4vw,40px) clamp(20px,5vw,56px);
+    display: flex; justify-content: space-between; align-items: flex-start; z-index: 2;
+    animation: fadeDown .9s ease .1s both;
+  }
+  .eyebrow { font-size: clamp(9px,2vw,11px); letter-spacing: .35em; color: var(--gold); text-transform: uppercase; font-weight: 500; }
+  .hero-date-tag { font-size: clamp(9px,2vw,11px); letter-spacing: .2em; color: var(--muted); text-transform: uppercase; text-align: right; line-height: 1.7; }
+
+  .hero-content { position: relative; z-index: 2; padding: 0 clamp(20px,5vw,56px); }
+
+  .hero-names {
+    font-size: clamp(11px,2.2vw,13px); letter-spacing: .18em; color: var(--gold);
+    text-transform: uppercase; font-weight: 500; margin-bottom: 14px;
+    animation: fadeUp .9s ease .3s both;
+  }
+  .hero-title-wrap { animation: fadeUp .9s ease .5s both; margin-bottom: 4px; }
+  .hero-title-main {
+    font-family: var(--fd); font-weight: 700; font-style: italic;
+    font-size: clamp(40px,10vw,108px); line-height: .93;
+    color: var(--white); display: block;
+  }
+  .hero-title-main .gold { color: var(--gold-pale); }
+  .hero-subtitle {
+    font-family: var(--fd); font-weight: 700; font-style: normal;
+    font-size: clamp(16px,3.8vw,36px); color: var(--offwhite);
+    display: block; line-height: 1.2; margin-top: 10px;
+    letter-spacing: .06em; text-transform: uppercase;
+  }
+  .hero-tagline {
+    margin-top: 24px; font-size: clamp(15px,2.5vw,17px); line-height: 1.75;
+    color: var(--body); font-weight: 300; max-width: 420px;
+    animation: fadeUp .9s ease .7s both;
+  }
+  .hero-bottom {
+    margin-top: 44px; display: flex; align-items: flex-end;
+    justify-content: space-between; gap: 20px; flex-wrap: wrap;
+    animation: fadeUp .9s ease .9s both;
+  }
+  .place-label { font-size: 10px; letter-spacing: .35em; color: var(--gold); text-transform: uppercase; font-weight: 600; margin-bottom: 8px; }
+  .place-date  { font-family: var(--fd); font-size: clamp(26px,5.5vw,52px); font-weight: 900; color: var(--white); line-height: 1; }
+  .place-addr  { font-size: clamp(13px,2vw,14px); color: var(--body); font-weight: 400; margin-top: 8px; line-height: 1.65; }
+
+  .cta-btn {
+    background: var(--burg); color: var(--white); font-family: var(--fb);
+    font-size: clamp(10px,1.8vw,12px); letter-spacing: .25em; text-transform: uppercase; font-weight: 600;
+    padding: clamp(14px,2.5vw,18px) clamp(24px,4vw,40px);
+    border: 1px solid var(--burg-mid); cursor: pointer; text-decoration: none;
+    display: inline-block; transition: background .3s, transform .2s; white-space: nowrap; flex-shrink: 0;
+  }
+  .cta-btn:hover { background: var(--burg-mid); transform: translateY(-2px); }
+
+  /* ── DIVIDER ── */
+  .sep { display: flex; align-items: center; gap: 16px; padding: 0 clamp(20px,5vw,56px); max-width: 940px; margin: 0 auto; }
+  .sep-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--b-gold), transparent); }
+  .sep-gem  { width: 8px; height: 8px; border: 1px solid var(--gold); transform: rotate(45deg); flex-shrink: 0; }
+
+  /* ── SECTIONS ── */
+  section { max-width: 940px; margin: 0 auto; padding: clamp(48px,7vw,76px) clamp(20px,5vw,56px); }
+
+  .lbl {
+    font-size: 10px; letter-spacing: .4em; color: var(--gold); text-transform: uppercase;
+    font-weight: 600; margin-bottom: 18px; display: flex; align-items: center; gap: 16px;
+  }
+  .lbl::after { content: ''; flex: 1; height: 1px; background: var(--b-gold); }
+
+  h2 {
+    font-family: var(--fd); font-weight: 700;
+    font-size: clamp(28px,5vw,48px); line-height: 1.1; margin-bottom: 26px; color: var(--white);
+  }
+  h2 em { font-style: italic; color: var(--gold-light); }
+
+  .body-text { font-size: clamp(15px,2.2vw,17px); line-height: 1.8; color: var(--body); font-weight: 300; }
+  .body-text + .body-text { margin-top: 14px; }
+
+  /* ── HOSTS ── */
+  .hosts { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 40px; }
+  .host {
+    background: var(--card); padding: clamp(24px,3vw,36px) clamp(20px,3vw,32px);
+    border: 1px solid var(--b-dim); position: relative; overflow: hidden; transition: border-color .3s;
+  }
+  .host:hover { border-color: var(--b-gold); }
+  .host::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .h-num  { font-family: var(--fd); font-size: 52px; font-weight: 900; color: rgba(201,162,79,.12); line-height: 1; margin-bottom: 10px; }
+  .h-name { font-family: var(--fd); font-size: clamp(18px,2.5vw,22px); font-weight: 700; color: var(--white); margin-bottom: 5px; }
+  .h-role { font-size: 10px; letter-spacing: .22em; color: var(--gold); text-transform: uppercase; font-weight: 600; margin-bottom: 12px; }
+  .h-desc { font-size: clamp(13px,1.8vw,15px); line-height: 1.75; color: var(--body); font-weight: 300; }
+
+  /* ── PROGRAM ── */
+  .prog-list { margin-top: 40px; display: flex; flex-direction: column; gap: 3px; }
+  .prog-item {
+    display: grid; grid-template-columns: clamp(80px,12vw,110px) 1fr;
+    background: var(--card); border: 1px solid var(--b-dim); overflow: hidden; transition: border-color .3s;
+  }
+  .prog-item:hover { border-color: var(--b-burg); }
+  .prog-time {
+    padding: clamp(20px,2.5vw,28px) clamp(12px,1.5vw,18px);
+    border-right: 1px solid var(--b-dim);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, rgba(139,26,34,.1), rgba(201,162,79,.05));
+  }
+  .prog-time strong { font-family: var(--fd); font-size: clamp(18px,2.5vw,22px); font-weight: 700; color: var(--gold); text-align: center; display: block; }
+  .prog-time span   { font-size: 9px; letter-spacing: .18em; color: var(--muted); text-transform: uppercase; margin-top: 4px; text-align: center; }
+  .prog-body  { padding: clamp(20px,2.5vw,28px) clamp(16px,2.5vw,32px); }
+  .prog-name  { font-family: var(--fd); font-size: clamp(17px,2.2vw,20px); font-weight: 700; color: var(--white); margin-bottom: 6px; }
+  .prog-desc  { font-size: clamp(13px,1.8vw,15px); color: var(--body); line-height: 1.7; font-weight: 300; }
+
+  /* ── FEATURES ── */
+  .feats { display: grid; grid-template-columns: repeat(3,1fr); gap: 3px; margin-top: 40px; }
+  .feat {
+    background: var(--card); border: 1px solid var(--b-dim); padding: clamp(20px,2.5vw,28px) clamp(18px,2vw,24px);
+    transition: border-color .3s;
+  }
+  .feat:hover { border-color: var(--b-gold); }
+  .feat-icon { font-size: 22px; margin-bottom: 12px; display: block; }
+  .feat-name { font-family: var(--fd); font-size: clamp(15px,2vw,18px); font-weight: 700; color: var(--white); margin-bottom: 7px; }
+  .feat-desc { font-size: clamp(12px,1.6vw,14px); color: var(--body); line-height: 1.7; font-weight: 300; }
+
+  /* ── TICKET ── */
+  .ticket-wrap { max-width: 940px; margin: 0 auto clamp(60px,8vw,90px); padding: 0 clamp(20px,5vw,56px); }
+  .ticket {
+    background: var(--card); border: 1px solid var(--b-dim);
+    position: relative; overflow: hidden; padding: clamp(32px,5vw,56px) clamp(24px,4vw,48px);
+  }
+  .ticket::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold-light) 50%, var(--gold) 80%, transparent); }
+  .ticket-glow { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 70% at 110% 50%, rgba(139,26,34,.18) 0%, transparent 60%); pointer-events: none; }
+
+  .ticket-top { position: relative; display: grid; grid-template-columns: 1fr auto; gap: 32px; align-items: center; margin-bottom: 36px; }
+  .t-lbl   { font-size: 10px; letter-spacing: .4em; color: var(--gold); text-transform: uppercase; font-weight: 600; margin-bottom: 12px; }
+  .t-title { font-family: var(--fd); font-size: clamp(22px,3.5vw,40px); font-weight: 700; line-height: 1.15; color: var(--white); }
+  .price-box {
+    text-align: center; padding: clamp(20px,2.5vw,28px) clamp(24px,3vw,36px);
+    border: 1px solid var(--b-gold); background: rgba(201,162,79,.07); flex-shrink: 0;
+  }
+  .price-lbl  { font-size: 9px; letter-spacing: .3em; color: var(--gold); text-transform: uppercase; font-weight: 600; margin-bottom: 6px; }
+  .price-val  { font-family: var(--fd); font-size: clamp(40px,6vw,54px); font-weight: 900; color: var(--white); line-height: 1; }
+  .price-val sup { font-size: 20px; vertical-align: super; color: var(--gold); }
+
+  /* ── FORM ── */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .form-grid .full { grid-column: 1/-1; }
+  .field { display: flex; flex-direction: column; gap: 7px; }
+  .field label { font-size: 9px; letter-spacing: .3em; color: var(--gold); text-transform: uppercase; font-weight: 600; }
+  .field input, .field select {
+    background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+    color: var(--white); font-family: var(--fb); font-size: clamp(15px,2vw,16px); font-weight: 300;
+    padding: 13px 16px; outline: none; transition: border-color .3s, background .3s;
+    appearance: none; -webkit-appearance: none; border-radius: 0;
+  }
+  .field input::placeholder { color: rgba(204,196,184,.28); }
+  .field input:focus, .field select:focus { border-color: var(--gold); background: rgba(201,162,79,.06); }
+  .field select option { background: #272727; color: var(--white); }
+
+  .btn-sub {
+    margin-top: 18px; width: 100%; padding: clamp(16px,2.5vw,20px) 32px;
+    background: var(--burg); color: var(--white); border: 1px solid var(--burg-mid);
+    font-family: var(--fb); font-size: clamp(10px,1.8vw,12px); letter-spacing: .28em;
+    text-transform: uppercase; font-weight: 600; cursor: pointer;
+    transition: background .3s, transform .2s; position: relative; overflow: hidden;
+    min-height: 56px; /* удобнее нажимать пальцем */
+    touch-action: manipulation;
+  }
+  .btn-sub::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(201,162,79,.15), transparent);
+    transform: translateX(-100%); transition: transform .5s;
+  }
+  .btn-sub:hover { background: var(--burg-mid); transform: translateY(-1px); }
+  .btn-sub:hover::after { transform: translateX(100%); }
+  .btn-sub:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+  .form-note { margin-top: 13px; font-size: clamp(12px,1.7vw,13px); color: var(--muted); text-align: center; line-height: 1.65; }
+
+  /* ── SUCCESS ── */
+  .success { display: none; text-align: center; padding: clamp(36px,5vw,52px) 24px; }
+  .success.show { display: block; }
+  .s-icon { width: 62px; height: 62px; border: 2px solid var(--gold); margin: 0 auto 22px; display: flex; align-items: center; justify-content: center; font-size: 24px; color: var(--gold); }
+  .success h3 { font-family: var(--fd); font-size: clamp(24px,4vw,30px); font-weight: 700; margin-bottom: 10px; }
+  .success p  { font-size: clamp(14px,2vw,16px); color: var(--body); line-height: 1.75; font-weight: 300; }
+
+  /* ── FOOTER ── */
+  footer { border-top: 1px solid var(--b-gold); padding: clamp(32px,4vw,44px) clamp(20px,5vw,56px); text-align: center; background: #161616; }
+  .ft-pre   { font-family: var(--fd); font-style: italic; font-size: 15px; color: var(--gold); margin-bottom: 4px; }
+  .ft-title { font-family: var(--fd); font-size: clamp(20px,4vw,34px); font-weight: 700; color: var(--white); margin-bottom: 12px; }
+  .ft-sub   { font-size: 11px; letter-spacing: .18em; color: var(--muted); text-transform: uppercase; line-height: 1.9; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp   { from { opacity:0; transform:translateY(26px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeDown { from { opacity:0; transform:translateY(-18px); } to { opacity:1; transform:translateY(0); } }
+  .reveal { opacity:0; transform:translateY(32px); transition: opacity .85s ease, transform .85s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 640px) {
+    .hosts { grid-template-columns: 1fr; }
+    .feats { grid-template-columns: 1fr 1fr; }
+    .form-grid { grid-template-columns: 1fr; }
+    .ticket-top { grid-template-columns: 1fr; gap: 20px; }
+    .price-box { display: flex; align-items: center; gap: 16px; justify-content: center; padding: 18px 24px; }
+    .price-lbl { margin-bottom: 0; }
+    .hero-bottom { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 400px) {
+    .feats { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    .reveal { opacity: 1 !important; transform: none !important; }
+    .hero { min-height: auto; padding: 40px 0 32px; }
+    .hero-title-main { font-size: 42px; line-height: 1.05; }
+    .hero-subtitle { font-size: 18px; }
+    .hero-tagline { font-size: 14px; line-height: 1.6; }
+    section { padding: 40px 20px; }
+    h2 { font-size: 26px; }
+    .hosts { grid-template-columns: 1fr; gap: 12px; }
+    .host { border-radius: 16px; padding: 20px; }
+    .prog-item { grid-template-columns: 70px 1fr; border-radius: 14px; }
+    .prog-name { font-size: 16px; }
+    .prog-desc { font-size: 13px; }
+    .feats { grid-template-columns: 1fr; gap: 12px; }
+    .feat { border-radius: 16px; }
+    .ticket { border-radius: 20px; padding: 28px 20px; }
+    .price-val { font-size: 34px; }
+    .form-grid { grid-template-columns: 1fr; gap: 12px; }
+    .field input, .field select { border-radius: 10px; padding: 14px; }
+    .btn-sub { border-radius: 12px; }
+    .cta-btn { width: 100%; text-align: center; border-radius: 12px; padding: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-top">
+    <div class="eyebrow">Живая встреча · Коломна · 2026</div>
+    <div class="hero-date-tag">4 апреля<br>12:00</div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-names">Анна Алмазова и Александр Радыгин</div>
+    <div class="hero-title-wrap">
+      <span class="hero-title-main">Ты жизнь мою<br><span class="gold">переменила</span></span>
+      <span class="hero-subtitle">Инсайд от стилиста</span>
+    </div>
+    <p class="hero-tagline">Живая встреча, которая изменит ваш взгляд на стиль — и, возможно, на себя.</p>
+    <div class="hero-bottom">
+      <div>
+        <div class="place-label">Место проведения</div>
+        <div class="place-date">4 апреля 2026</div>
+        <div class="place-addr">г. Коломна · Пространство «Да Винчи»<br>ул. Савельича, д. 18 · Начало в 12:00</div>
+      </div>
+      <a href="#register" class="cta-btn">Забронировать место</a>
+    </div>
+  </div>
+</div>
+
+<div class="sep"><div class="sep-line"></div><div class="sep-gem"></div><div class="sep-line"></div></div>
+
+<!-- ABOUT -->
+<section class="reveal">
+  <div class="lbl">О встрече</div>
+  <h2>История настоящего<br><em>преображения</em></h2>
+  <p class="body-text">Это не лекция о правилах стиля. Это честный разговор двух людей — стилиста и её клиента — о том, как меняется жизнь, когда меняется то, как ты себя видишь.</p>
+  <p class="body-text">За один год Александр Радыгин прошёл путь от человека, который не думал об одежде, до человека, который читает стихи на сцене, работает массажистом и живёт совсем иначе. Анна Алмазова расскажет эту историю изнутри — с образами, советами и живыми примерами.</p>
+  <div class="hosts">
+    <div class="host">
+      <div class="h-num">01</div>
+      <div class="h-name">Анна Алмазова</div>
+      <div class="h-role">Персональный стилист · Ведущая</div>
+      <p class="h-desc">Расскажет о пути клиента и поделится профессиональными инсайдами о стиле — честно, с примерами и советами, которые можно применить сразу.</p>
+    </div>
+    <div class="host">
+      <div class="h-num">02</div>
+      <div class="h-name">Александр Радыгин</div>
+      <div class="h-role">Массажист · Поэт · Клиент</div>
+      <p class="h-desc">Расскажет о своём пути и прочитает стихи, которые написал уже после того, как жизнь стала другой.</p>
+    </div>
+  </div>
+</section>
+
+<div class="sep"><div class="sep-line"></div><div class="sep-gem"></div><div class="sep-line"></div></div>
+
+<!-- PROGRAM -->
+<section class="reveal">
+  <div class="lbl">Программа</div>
+  <h2>Как пройдёт<br><em>встреча</em></h2>
+  <div class="prog-list">
+    <div class="prog-item">
+      <div class="prog-time"><strong>12:00</strong><span>сбор</span></div>
+      <div class="prog-body">
+        <div class="prog-name">Сбор гостей</div>
+        <p class="prog-desc">Фотосессия с профессиональным фотографом Галией Казаковой, маркет одежды, музыка от диджея. Фуршет открывается сразу — угощения и напитки с первой минуты.</p>
+      </div>
+    </div>
+    <div class="prog-item">
+      <div class="prog-time"><strong>13:00</strong><span>выступление</span></div>
+      <div class="prog-body">
+        <div class="prog-name">История трансформации</div>
+        <p class="prog-desc">Совместное выступление Анны и Александра (~1 час). Смена образов, стихи, полезные советы от стилиста — как работает стиль на самом деле.</p>
+      </div>
+    </div>
+    <div class="prog-item">
+      <div class="prog-time"><strong>14:00</strong><span>общение</span></div>
+      <div class="prog-body">
+        <div class="prog-name">Свободное время</div>
+        <p class="prog-desc">Маркет одежды с мини-консультациями, моментальные фото на память, живая музыка, фуршет. И главное — вытягивание карты аутентичности: практика от Анны, которую можно использовать как приглашение на личную консультацию.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sep"><div class="sep-line"></div><div class="sep-gem"></div><div class="sep-line"></div></div>
+
+<!-- FEATURES -->
+<section class="reveal">
+  <div class="lbl">Что вас ждёт</div>
+  <h2>День, который<br><em>запомнится</em></h2>
+  <div class="feats">
+    <div class="feat">
+      <span class="feat-icon">✦</span>
+      <div class="feat-name">Карта аутентичности</div>
+      <p class="feat-desc">Вытяните свою карту во время свободного общения — и используйте её как приглашение на личную консультацию с Анной.</p>
+    </div>
+    <div class="feat">
+      <span class="feat-icon">◈</span>
+      <div class="feat-name">Советы стилиста</div>
+      <p class="feat-desc">Практические инсайды от Анны Алмазовой — то, что работает в жизни, а не в журнале.</p>
+    </div>
+    <div class="feat">
+      <span class="feat-icon">◇</span>
+      <div class="feat-name">Маркет одежды</div>
+      <p class="feat-desc">Готовые образы с возможностью примерить и купить, плюс мини-консультация от стилиста.</p>
+    </div>
+    <div class="feat">
+      <span class="feat-icon">📸</span>
+      <div class="feat-name">Фотограф Галия Казакова</div>
+      <p class="feat-desc">Профессиональная фотосессия и моментальная печать — фото на память прямо на встрече.</p>
+    </div>
+    <div class="feat">
+      <span class="feat-icon">🎵</span>
+      <div class="feat-name">Живая музыка</div>
+      <p class="feat-desc">Диджей создаёт атмосферу весь день — и во время выступления, и во время общения.</p>
+    </div>
+    <div class="feat">
+      <span class="feat-icon">🥂</span>
+      <div class="feat-name">Фуршет</div>
+      <p class="feat-desc">Угощения и напитки с самого начала встречи. Без этого никак.</p>
+    </div>
+  </div>
+</section>
+
+<div class="sep"><div class="sep-line"></div><div class="sep-gem"></div><div class="sep-line"></div></div>
+
+<!-- REGISTRATION -->
+<div class="ticket-wrap reveal" id="register">
+  <div class="ticket">
+    <div class="ticket-glow"></div>
+    <div class="ticket-top">
+      <div>
+        <div class="t-lbl">Участие</div>
+        <div class="t-title">Забронировать место<br>на встречу</div>
+      </div>
+      <div class="price-box">
+        <div class="price-lbl">Стоимость</div>
+        <div class="price-val"><sup>₽</sup>1548</div>
+      </div>
+    </div>
+
+    <div id="form-wrap">
+      <div class="form-grid">
+        <div class="field">
+          <label>Ваше имя</label>
+          <input type="text" id="f-name" placeholder="Как вас зовут" autocomplete="name">
+        </div>
+        <div class="field">
+          <label>Телефон или Telegram</label>
+          <input type="tel" id="f-contact" placeholder="+7 или @username" autocomplete="tel">
+        </div>
+        <div class="field full">
+          <label>Откуда вы узнали о встрече?</label>
+          <select id="f-source">
+            <option value="" disabled selected>Выберите вариант</option>
+            <option>Instagram / соцсети</option>
+            <option>От знакомых</option>
+            <option>Лично от Анны</option>
+            <option>Лично от Александра</option>
+            <option>Другое</option>
+          </select>
+        </div>
+      </div>
+      <button type="button" class="btn-sub" id="submit-btn">Подтвердить участие и перейти к оплате</button>
+      <p class="form-note">После подтверждения вы будете перенаправлены на страницу оплаты 1 548 ₽ через СБП.<br>Место закрепляется после оплаты.</p>
+    </div>
+
+    <div class="success" id="success">
+      <div class="s-icon">✦</div>
+      <h3>Заявка принята!</h3>
+      <p>Спасибо! Переводим вас на страницу оплаты.<br>До встречи 4 апреля в Коломне!</p>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="ft-pre">Инсайд от стилиста</div>
+  <div class="ft-title">Ты жизнь мою переменила</div>
+  <div class="ft-sub">4 апреля 2026 · Начало в 12:00<br>г. Коломна · Пространство «Да Винчи» · ул. Савельича, д. 18</div>
+</footer>
+
+<script>
+  const SCRIPT_URL  = 'https://script.google.com/macros/s/AKfycbyeIRA580rdqhbDspBUWZTnB5kywKBIsxvHaJ2e4ooXRKZWVSuQDmNMWTOBezIRgFYfCw/exec';
+  const PAYMENT_URL = 'https://yoomoney.ru/fundraise/1GN2SI41LUA.260324';
+
+  function initReveal() {
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.1 });
+    reveals.forEach(r => observer.observe(r));
+  }
+
+  async function handleSubmit() {
+    const name    = document.getElementById('f-name').value.trim();
+    const contact = document.getElementById('f-contact').value.trim();
+    const source  = document.getElementById('f-source').value;
+
+    document.getElementById('f-name').style.borderColor    = name ? '' : 'var(--gold)';
+    document.getElementById('f-contact').style.borderColor = contact ? '' : 'var(--gold)';
+
+    if (!name || !contact) {
+      alert('Пожалуйста, заполните имя и контакт 💛');
+      return;
+    }
+
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Отправляем...';
+    btn.disabled = true;
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          contact,
+          source: source || 'не указано',
+          date: new Date().toLocaleString('ru-RU'),
+          paid: 'нет',
+          device: 'mobile'
+        })
+      });
+    } catch(e) { console.error(e); }
+
+    document.getElementById('form-wrap').style.display = 'none';
+    document.getElementById('success').classList.add('show');
+
+    setTimeout(() => {
+      window.location.href = PAYMENT_URL;
+    }, 1800);
+  }
+
+  function initButton() {
+    const btn = document.getElementById('submit-btn');
+    if (btn) {
+      btn.removeEventListener('click', handleSubmit);
+      btn.addEventListener('click', handleSubmit);
+      btn.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        handleSubmit();
+      }, { passive: false });
+    }
+  }
+
+  window.addEventListener('load', () => {
+    initReveal();
+    initButton();
+  });
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initReveal();
+    initButton();
+  });
+
+  // Защита от зума на iOS
+  document.addEventListener('touchstart', function(event) {
+    if (event.touches.length > 1) {
+      event.preventDefault();
+    }
+  }, { passive: false });
+</script>
+
+</body>
+</html>
