@@ -495,7 +495,7 @@
     reveals.forEach(r => observer.observe(r));
   }
 
-  async function handleSubmit() {
+  function handleSubmit() {
     if (isSubmitting) return;
     isSubmitting = true;
 
@@ -504,12 +504,12 @@
     const contact  = document.getElementById('f-contact').value.trim();
     const source   = document.getElementById('f-source').value;
 
-    // Подсветка пустых полей
+    // Подсветка ошибок
     document.getElementById('f-name').style.borderColor    = name ? '' : 'var(--gold)';
     document.getElementById('f-surname').style.borderColor = surname ? '' : 'var(--gold)';
     document.getElementById('f-contact').style.borderColor = contact ? '' : 'var(--gold)';
 
-    if (!name  !surname  !contact) {
+    if (!name || !surname || !contact) {
       alert('Пожалуйста, заполните имя, фамилию и контакт 💛');
       isSubmitting = false;
       return;
@@ -522,25 +522,21 @@
     // Сразу открываем оплату
     window.open(PAYMENT_URL, '_blank');
 
-    // Отправляем данные в Google Таблицу
-    try {
-      await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName: name,
-          lastName: surname,
-          fullName: name + ' ' + surname,
-          contact: contact,
-          source: source || 'не указано',
-          date: new Date().toLocaleString('ru-RU'),
-          paid: 'нет'
-        })
-      });
-    } catch(e) {
-      console.error(e);
-    }
+    // Отправка в таблицу
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        firstName: name,
+        lastName: surname,
+        fullName: name + ' ' + surname,
+        contact: contact,
+        source: source || 'не указано',
+        date: new Date().toLocaleString('ru-RU'),
+        paid: 'нет'
+      })
+    }).catch(() => {});
 
     // Показываем успех
     document.getElementById('form-wrap').style.display = 'none';
@@ -549,20 +545,16 @@
     isSubmitting = false;
   }
 
-  // Инициализация
+  // Запуск
   document.addEventListener('DOMContentLoaded', () => {
     initReveal();
 
     const btn = document.getElementById('submit-btn');
     if (btn) {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        handleSubmit();
-      });
+      btn.addEventListener('click', handleSubmit);
     }
   });
 </script>
-
  
 </body>
 </html>
