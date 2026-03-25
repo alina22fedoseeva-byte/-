@@ -480,8 +480,6 @@
   const SCRIPT_URL  = 'https://script.google.com/macros/s/AKfycbyeIRA580rdqhbDspBUWZTnB5kywKBIsxvHaJ2e4ooXRKZWVSuQDmNMWTOBezIRgFYfCw/exec';
   const PAYMENT_URL = 'https://yoomoney.ru/fundraise/1GN2SI41LUA.260324';
 
-  let isSubmitting = false;
-
   function initReveal() {
     const reveals = document.querySelectorAll('.reveal');
     const observer = new IntersectionObserver((entries) => {
@@ -498,17 +496,20 @@
     if (isSubmitting) return;
     isSubmitting = true;
 
-    const name     = document.getElementById('f-name').value.trim();
-    const surname  = document.getElementById('f-surname').value.trim();
-    const contact  = document.getElementById('f-contact').value.trim();
-    const source   = document.getElementById('f-source').value;
+    const name    = document.getElementById('f-name').value.trim();
+    const surname = document.getElementById('f-surname').value.trim();
+    const contact = document.getElementById('f-contact').value.trim();
+    const source  = document.getElementById('f-source').value;
 
-    // Подсветка пустых полей
-    document.getElementById('f-name').style.borderColor    = name ? '' : 'var(--gold)';
-    document.getElementById('f-surname').style.borderColor = surname ? '' : 'var(--gold)';
-    document.getElementById('f-contact').style.borderColor = contact ? '' : 'var(--gold)';
+    // Reset borders
+    document.getElementById('f-name').style.borderColor    = '';
+    document.getElementById('f-surname').style.borderColor = '';
+    document.getElementById('f-contact').style.borderColor = '';
 
-    if (!name  !surname  !contact) {
+    if (!name || !surname || !contact) {
+      if (!name)    document.getElementById('f-name').style.borderColor    = 'var(--gold)';
+      if (!surname) document.getElementById('f-surname').style.borderColor = 'var(--gold)';
+      if (!contact) document.getElementById('f-contact').style.borderColor = 'var(--gold)';
       alert('Пожалуйста, заполните имя, фамилию и контакт 💛');
       isSubmitting = false;
       return;
@@ -518,48 +519,42 @@
     btn.textContent = 'Отправляем...';
     btn.disabled = true;
 
-    // Сразу открываем оплату
+    // Открываем оплату сразу — без ожидания ответа от таблицы
     window.open(PAYMENT_URL, '_blank');
 
-    // Отправляем данные в Google Таблицу
-    try {
-      await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName: name,
-          lastName: surname,
-          fullName: name + ' ' + surname,
-          contact: contact,
-          source: source || 'не указано',
-          date: new Date().toLocaleString('ru-RU'),
-          paid: 'нет'
-        })
-      });
-    } catch(e) {
-      console.error(e);
-    }
+    // Отправка в таблицу в фоне — не блокирует пользователя
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name,
+        surname: surname,
+        contact,
+        source: source || 'не указано',
+        date: new Date().toLocaleString('ru-RU'),
+        paid: 'нет'
+      })
+    }).catch(e => console.error(e));
 
-    // Показываем успех
     document.getElementById('form-wrap').style.display = 'none';
     document.getElementById('success').classList.add('show');
-
-    isSubmitting = false;
   }
 
-  // Инициализация
+  let isSubmitting = false;
+
   document.addEventListener('DOMContentLoaded', () => {
     initReveal();
-
     const btn = document.getElementById('submit-btn');
     if (btn) {
       btn.addEventListener('click', (e) => {
         e.preventDefault();
-        handleSubmit();
+        if (!isSubmitting) handleSubmit();
       });
     }
   });
+
+
 </script>
 
 </body>
