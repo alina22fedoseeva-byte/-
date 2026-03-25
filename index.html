@@ -422,10 +422,14 @@
     <div id="form-wrap">
       <div class="form-grid">
         <div class="field">
-          <label>Ваше имя</label>
-          <input type="text" id="f-name" placeholder="Как вас зовут" autocomplete="name">
+          <label>Имя</label>
+          <input type="text" id="f-name" placeholder="Ваше имя" autocomplete="given-name">
         </div>
         <div class="field">
+          <label>Фамилия</label>
+          <input type="text" id="f-surname" placeholder="Ваша фамилия" autocomplete="family-name">
+        </div>
+        <div class="field full">
           <label>Телефон или Telegram</label>
           <input type="tel" id="f-contact" placeholder="+7 или @username" autocomplete="tel">
         </div>
@@ -442,13 +446,25 @@
         </div>
       </div>
       <button type="button" class="btn-sub" id="submit-btn">Подтвердить участие и перейти к оплате</button>
-      <p class="form-note">После подтверждения вы будете перенаправлены на страницу оплаты 1 548 ₽ через СБП.<br>Место закрепляется после оплаты.</p>
+      <p class="form-note">
+        После подтверждения откроется страница оплаты 1 548 ₽ через СБП.<br>
+        Место закрепляется после оплаты.<br>
+        После оплаты пришлите скриншот:
+        <a href="https://t.me/LotikAlina" target="_blank" style="color:var(--gold);text-decoration:none;">Telegram @LotikAlina</a>
+        &nbsp;·&nbsp;
+        <a href="https://vk.com/fedoseeva1" target="_blank" style="color:var(--gold);text-decoration:none;">ВКонтакте</a>
+      </p>
     </div>
 
     <div class="success" id="success">
       <div class="s-icon">✦</div>
       <h3>Заявка принята!</h3>
-      <p>Спасибо! Переводим вас на страницу оплаты.<br>До встречи 4 апреля в Коломне!</p>
+      <p>Страница оплаты открылась в новой вкладке.<br>
+      После оплаты пришлите скриншот:
+      <a href="https://t.me/LotikAlina" target="_blank" style="color:var(--gold);text-decoration:none;">Telegram @LotikAlina</a>
+      &nbsp;·&nbsp;
+      <a href="https://vk.com/fedoseeva1" target="_blank" style="color:var(--gold);text-decoration:none;">ВКонтакте</a><br><br>
+      До встречи 4 апреля в Коломне! ✦</p>
     </div>
   </div>
 </div>
@@ -481,14 +497,20 @@
     isSubmitting = true;
 
     const name    = document.getElementById('f-name').value.trim();
+    const surname = document.getElementById('f-surname').value.trim();
     const contact = document.getElementById('f-contact').value.trim();
     const source  = document.getElementById('f-source').value;
 
-    document.getElementById('f-name').style.borderColor    = name ? '' : 'var(--gold)';
-    document.getElementById('f-contact').style.borderColor = contact ? '' : 'var(--gold)';
+    // Reset borders
+    document.getElementById('f-name').style.borderColor    = '';
+    document.getElementById('f-surname').style.borderColor = '';
+    document.getElementById('f-contact').style.borderColor = '';
 
-    if (!name || !contact) {
-      alert('Пожалуйста, заполните имя и контакт 💛');
+    if (!name || !surname || !contact) {
+      if (!name)    document.getElementById('f-name').style.borderColor    = 'var(--gold)';
+      if (!surname) document.getElementById('f-surname').style.borderColor = 'var(--gold)';
+      if (!contact) document.getElementById('f-contact').style.borderColor = 'var(--gold)';
+      alert('Пожалуйста, заполните имя, фамилию и контакт 💛');
       isSubmitting = false;
       return;
     }
@@ -497,28 +519,25 @@
     btn.textContent = 'Отправляем...';
     btn.disabled = true;
 
-    try {
-      await fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          contact,
-          source: source || 'не указано',
-          date: new Date().toLocaleString('ru-RU'),
-          paid: 'нет',
-          device: 'mobile'
-        })
-      });
-    } catch(e) { console.error(e); }
+    // Открываем оплату сразу — без ожидания ответа от таблицы
+    window.open(PAYMENT_URL, '_blank');
+
+    // Отправка в таблицу в фоне — не блокирует пользователя
+    fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: name + ' ' + surname,
+        contact,
+        source: source || 'не указано',
+        date: new Date().toLocaleString('ru-RU'),
+        paid: 'нет'
+      })
+    }).catch(e => console.error(e));
 
     document.getElementById('form-wrap').style.display = 'none';
     document.getElementById('success').classList.add('show');
-
-    setTimeout(() => {
-      window.location.href = PAYMENT_URL;
-    }, 1800);
   }
 
   let isSubmitting = false;
