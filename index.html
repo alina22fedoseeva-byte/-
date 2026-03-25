@@ -504,11 +504,6 @@
     const contact  = document.getElementById('f-contact').value.trim();
     const source   = document.getElementById('f-source').value;
 
-    // Подсветка ошибок
-    document.getElementById('f-name').style.borderColor    = name ? '' : 'var(--gold)';
-    document.getElementById('f-surname').style.borderColor = surname ? '' : 'var(--gold)';
-    document.getElementById('f-contact').style.borderColor = contact ? '' : 'var(--gold)';
-
     if (!name || !surname || !contact) {
       alert('Пожалуйста, заполните имя, фамилию и контакт 💛');
       isSubmitting = false;
@@ -519,10 +514,10 @@
     btn.textContent = 'Отправляем...';
     btn.disabled = true;
 
-    // Сразу открываем оплату
+    // Открываем оплату сразу
     window.open(PAYMENT_URL, '_blank');
 
-    // Отправка в таблицу
+    // Отправляем данные
     fetch(SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
@@ -530,7 +525,6 @@
       body: JSON.stringify({
         firstName: name,
         lastName: surname,
-        fullName: name + ' ' + surname,
         contact: contact,
         source: source || 'не указано',
         date: new Date().toLocaleString('ru-RU'),
@@ -545,16 +539,13 @@
     isSubmitting = false;
   }
 
-  // Запуск
   document.addEventListener('DOMContentLoaded', () => {
     initReveal();
-
     const btn = document.getElementById('submit-btn');
-    if (btn) {
-      btn.addEventListener('click', handleSubmit);
-    }
+    if (btn) btn.addEventListener('click', handleSubmit);
   });
 </script>
+ 
  
 </body>
 </html>
